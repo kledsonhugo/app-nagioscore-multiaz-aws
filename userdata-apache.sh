@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# WebServer Apache Install Instructions
+# http://httpd.apache.org/docs/current/install.html
 yum update -y
 yum install -y httpd
 systemctl enable httpd
@@ -11,3 +14,4 @@ cat <<EOF >/var/www/html/index.html
 </body>
 </html>
 EOF
+echo done > /tmp/webserver-apache.done
