@@ -1,5 +1,7 @@
 #!/bin/bash
-# https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#CentOS
+
+# Nagios Core Install Instructions
+# https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html
 yum update -y
 setenforce 0
 cd /tmp
@@ -34,4 +36,4 @@ cd /tmp/nagios-plugins-release-2.2.1/
 make
 make install
 service nagios restart
-echo done > /tmp/nagios.status
+echo done > /tmp/nagioscore.done
