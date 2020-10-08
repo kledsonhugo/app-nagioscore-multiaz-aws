@@ -12,7 +12,7 @@ Escopo:
     - plugins: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.2.1.tar.gz
   
 
-* Instalação do software NCPA (aka Nagios agent) em máquinas Linux que serão gerenciadas pelo Nagios Core via porta TCP 5693.
+* Instalação do software NSCA (aka Nagios agent) em máquinas Linux que serão gerenciadas pelo Nagios Core via porta TCP 5693.
 
   - ref: https://assets.nagios.com/downloads/nagioscore/docs/Installing_NSCA.pdf
   - source: https://assets.nagios.com/downloads/ncpa/ncpa-latest.el7.x86_64.rpm
