@@ -22,7 +22,16 @@ Escopo:
   - ref: https://docs.nsclient.org/installing/
   - source: https://nsclient.org/download/0.4.4/
 
-* Instalação do SNMP Service em dispositivos de rede.
+* Instalação do SNMP Service em dispositivos gerenciados.
+
+  - Linux: https://www.site24x7.com/help/admin/adding-a-monitor/configuring-snmp-linux.html
+  - Windows: https://www.site24x7.com/help/admin/adding-a-monitor/configuring-snmp-windows.html
 
 * Configuração do Nagios Core adicionando as máquinas para serem gerenciadas via NCPA (Linux), NSClient (Windows), SNMP (Network devices) e ICMP (Todas via ping).
 
+
+* Referências
+
+  - Threshold and Ranges: http://nagios-plugins.org/doc/guidelines.html#THRESHOLDFORMAT
+
+  
