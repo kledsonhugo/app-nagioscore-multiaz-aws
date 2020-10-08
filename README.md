@@ -6,7 +6,7 @@ Escopo:
 
 * Instalação e configuração do software Nagios Core em uma máquina virtual Linux
 
-  - ref: https://assets.nagios.com/downloads/nagioscore/docs/Nagios-Core-Installing-On-Centos7.pdf
+  - ref: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/quickstart.html
   - source:
     - nagioscore: https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.5.tar.gz
     - plugins: https://github.com/nagios-plugins/nagios-plugins/archive/release-2.2.1.tar.gz
@@ -32,6 +32,7 @@ Escopo:
 
 * Referências
 
+  - Nagios Core documentation: https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/
   - Threshold and Ranges: http://nagios-plugins.org/doc/guidelines.html#THRESHOLDFORMAT
 
   
