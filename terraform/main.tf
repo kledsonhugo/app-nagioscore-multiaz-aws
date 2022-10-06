@@ -1,18 +1,3 @@
-# PROVIDER
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-}
-
-# REGION
-provider "aws" {
-    region = "us-east-1"
-}
-
 # VPC
 resource "aws_vpc" "vpc1" {
     cidr_block           = "30.0.0.0/16"
