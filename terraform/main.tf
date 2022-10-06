@@ -14,28 +14,28 @@ provider "aws" {
 }
 
 # VPC
-resource "aws_vpc" "vpc10" {
-    cidr_block           = "10.0.0.0/16"
+resource "aws_vpc" "vpc1" {
+    cidr_block           = "30.0.0.0/16"
     enable_dns_hostnames = "true"
 
     tags = {
-        Name = "vpc10"
+        Name = "vpc1"
     }
 }
 
-resource "aws_vpc" "vpc20" {
-    cidr_block           = "20.0.0.0/16"
+resource "aws_vpc" "vpc2" {
+    cidr_block           = "40.0.0.0/16"
     enable_dns_hostnames = "true"
 
     tags = {
-        Name = "vpc20"
+        Name = "vpc2"
     }
 }
 
 # VPC Peering
 resource "aws_vpc_peering_connection" "vpc_peering" {
-    peer_vpc_id   = aws_vpc.vpc20.id
-    vpc_id        = aws_vpc.vpc10.id
+    peer_vpc_id   = aws_vpc.vpc2.id
+    vpc_id        = aws_vpc.vpc1.id
     auto_accept   = true
     
     tags = {
@@ -45,196 +45,196 @@ resource "aws_vpc_peering_connection" "vpc_peering" {
 }
 
 # INTERNET GATEWAY
-resource "aws_internet_gateway" "igw_vpc10" {
-    vpc_id = aws_vpc.vpc10.id
+resource "aws_internet_gateway" "igw_vpc1" {
+    vpc_id = aws_vpc.vpc1.id
 
     tags = {
-        Name = "igw_vpc10"
+        Name = "igw_vpc1"
     }
 }
 
-resource "aws_internet_gateway" "igw_vpc20" {
-    vpc_id = aws_vpc.vpc20.id
+resource "aws_internet_gateway" "igw_vpc2" {
+    vpc_id = aws_vpc.vpc2.id
 
     tags = {
-        Name = "igw_vpc20"
+        Name = "igw_vpc2"
     }
 }
 
 # SUBNET
-resource "aws_subnet" "sn_vpc10_public" {
-    vpc_id                  = aws_vpc.vpc10.id
-    cidr_block              = "10.0.1.0/24"
+resource "aws_subnet" "sn_vpc1_public" {
+    vpc_id                  = aws_vpc.vpc1.id
+    cidr_block              = "30.0.1.0/24"
     map_public_ip_on_launch = "true"
     availability_zone       = "us-east-1a"
 
     tags = {
-        Name = "sn_vpc10_public"
+        Name = "sn_vpc1_public"
     }
 }
 
-resource "aws_subnet" "sn_vpc10_private" {
-    vpc_id            = aws_vpc.vpc10.id
-    cidr_block        = "10.0.2.0/24"
+resource "aws_subnet" "sn_vpc1_private" {
+    vpc_id            = aws_vpc.vpc1.id
+    cidr_block        = "30.0.2.0/24"
     availability_zone = "us-east-1c"
 
     tags = {
-        Name = "sn_vpc10_private"
+        Name = "sn_vpc1_private"
     }
 }
 
-resource "aws_subnet" "sn_vpc20_public" {
-    vpc_id                  = aws_vpc.vpc20.id
-    cidr_block              = "20.0.1.0/24"
+resource "aws_subnet" "sn_vpc2_public" {
+    vpc_id                  = aws_vpc.vpc2.id
+    cidr_block              = "40.0.1.0/24"
     map_public_ip_on_launch = "true"
     availability_zone       = "us-east-1a"
 
     tags = {
-        Name = "sn_vpc20_public"
+        Name = "sn_vpc2_public"
     }
 }
 
-resource "aws_subnet" "sn_vpc20_private" {
-    vpc_id            = aws_vpc.vpc20.id
-    cidr_block        = "20.0.2.0/24"
+resource "aws_subnet" "sn_vpc2_private" {
+    vpc_id            = aws_vpc.vpc2.id
+    cidr_block        = "40.0.2.0/24"
     availability_zone = "us-east-1c"
 
     tags = {
-        Name = "sn_vpc20_private"
+        Name = "sn_vpc2_private"
     }
 }
 
 # Elastic IP
-resource "aws_eip" "eip_ngw_vpc10" {
-    depends_on = [aws_internet_gateway.igw_vpc10]
+resource "aws_eip" "eip_ngw_vpc1" {
+    depends_on = [aws_internet_gateway.igw_vpc1]
 }
 
-resource "aws_eip" "eip_ngw_vpc20" {
-    depends_on = [aws_internet_gateway.igw_vpc20]
+resource "aws_eip" "eip_ngw_vpc2" {
+    depends_on = [aws_internet_gateway.igw_vpc2]
 }
 
 # NAT Gateway
-resource "aws_nat_gateway" "ngw_vpc10" {
-    allocation_id = aws_eip.eip_ngw_vpc10.id
-    subnet_id     = aws_subnet.sn_vpc10_public.id
+resource "aws_nat_gateway" "ngw_vpc1" {
+    allocation_id = aws_eip.eip_ngw_vpc1.id
+    subnet_id     = aws_subnet.sn_vpc1_public.id
 
     tags = {
-        Name = "ngw_vpc10"
+        Name = "ngw_vpc1"
     }
 
-    depends_on = [aws_internet_gateway.igw_vpc10]
+    depends_on = [aws_internet_gateway.igw_vpc1]
 }
 
-resource "aws_nat_gateway" "ngw_vpc20" {
-    allocation_id = aws_eip.eip_ngw_vpc20.id
-    subnet_id     = aws_subnet.sn_vpc20_public.id
+resource "aws_nat_gateway" "ngw_vpc2" {
+    allocation_id = aws_eip.eip_ngw_vpc2.id
+    subnet_id     = aws_subnet.sn_vpc2_public.id
 
     tags = {
-        Name = "ngw_vpc20"
+        Name = "ngw_vpc2"
     }
 
-    depends_on = [aws_internet_gateway.igw_vpc20]
+    depends_on = [aws_internet_gateway.igw_vpc2]
 }
 
 # ROUTE TABLE
-resource "aws_route_table" "rt_vpc10_public" {
-    vpc_id = aws_vpc.vpc10.id
+resource "aws_route_table" "rt_vpc1_public" {
+    vpc_id = aws_vpc.vpc1.id
 
     route {
-        cidr_block = "20.0.0.0/16"
+        cidr_block = "40.0.0.0/16"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
 
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.igw_vpc10.id
+        gateway_id = aws_internet_gateway.igw_vpc1.id
     }
 
     tags = {
-        Name = "rt_vpc10_public"
+        Name = "rt_vpc1_public"
     }
 }
 
-resource "aws_route_table" "rt_vpc10_private" {
-    vpc_id = aws_vpc.vpc10.id
+resource "aws_route_table" "rt_vpc1_private" {
+    vpc_id = aws_vpc.vpc1.id
 
     route {
-        cidr_block = "20.0.0.0/16"
+        cidr_block = "40.0.0.0/16"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
 
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_nat_gateway.ngw_vpc10.id
+        gateway_id = aws_nat_gateway.ngw_vpc1.id
     }
 
     tags = {
-        Name = "rt_vpc10_private"
+        Name = "rt_vpc1_private"
     }
 }
 
-resource "aws_route_table" "rt_vpc20_public" {
-    vpc_id = aws_vpc.vpc20.id
+resource "aws_route_table" "rt_vpc2_public" {
+    vpc_id = aws_vpc.vpc2.id
 
     route {
-        cidr_block = "10.0.0.0/16"
+        cidr_block = "30.0.0.0/16"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
 
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.igw_vpc20.id
+        gateway_id = aws_internet_gateway.igw_vpc2.id
     }
 
     tags = {
-        Name = "rt_vpc20_public"
+        Name = "rt_vpc2_public"
     }
 }
 
-resource "aws_route_table" "rt_vpc20_private" {
-    vpc_id = aws_vpc.vpc20.id
+resource "aws_route_table" "rt_vpc2_private" {
+    vpc_id = aws_vpc.vpc2.id
 
     route {
-        cidr_block = "10.0.0.0/16"
+        cidr_block = "30.0.0.0/16"
         gateway_id = aws_vpc_peering_connection.vpc_peering.id
     }
 
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_nat_gateway.ngw_vpc20.id
+        gateway_id = aws_nat_gateway.ngw_vpc2.id
     }
 
     tags = {
-        Name = "rt_vpc20_private"
+        Name = "rt_vpc2_private"
     }
 }
 
 # SUBNET ASSOCIATION
-resource "aws_route_table_association" "rt_vpc10_public_To_sn_vpc10_public" {
-  subnet_id      = aws_subnet.sn_vpc10_public.id
-  route_table_id = aws_route_table.rt_vpc10_public.id
+resource "aws_route_table_association" "rt_vpc1_public_To_sn_vpc1_public" {
+  subnet_id      = aws_subnet.sn_vpc1_public.id
+  route_table_id = aws_route_table.rt_vpc1_public.id
 }
 
-resource "aws_route_table_association" "rt_vpc10_private_To_sn_vpc10_private" {
-  subnet_id      = aws_subnet.sn_vpc10_private.id
-  route_table_id = aws_route_table.rt_vpc10_private.id
+resource "aws_route_table_association" "rt_vpc1_private_To_sn_vpc1_private" {
+  subnet_id      = aws_subnet.sn_vpc1_private.id
+  route_table_id = aws_route_table.rt_vpc1_private.id
 }
 
-resource "aws_route_table_association" "rt_vpc20_public_To_sn_vpc20_public" {
-  subnet_id      = aws_subnet.sn_vpc20_public.id
-  route_table_id = aws_route_table.rt_vpc20_public.id
+resource "aws_route_table_association" "rt_vpc2_public_To_sn_vpc2_public" {
+  subnet_id      = aws_subnet.sn_vpc2_public.id
+  route_table_id = aws_route_table.rt_vpc2_public.id
 }
 
-resource "aws_route_table_association" "rt_vpc20_private_To_sn_vpc20_private" {
-  subnet_id      = aws_subnet.sn_vpc20_private.id
-  route_table_id = aws_route_table.rt_vpc20_private.id
+resource "aws_route_table_association" "rt_vpc2_private_To_sn_vpc2_private" {
+  subnet_id      = aws_subnet.sn_vpc2_private.id
+  route_table_id = aws_route_table.rt_vpc2_private.id
 }
 
 # SECURITY GROUP
-resource "aws_security_group" "sg_vpc10_public" {
-    name        = "sg_vpc10_public"
-    description = "sg_vpc10_public"
-    vpc_id      = aws_vpc.vpc10.id
+resource "aws_security_group" "sg_vpc1_public" {
+    name        = "sg_vpc1_public"
+    description = "sg_vpc1_public"
+    vpc_id      = aws_vpc.vpc1.id
     
     egress {
         description = "All to All"
@@ -249,15 +249,15 @@ resource "aws_security_group" "sg_vpc10_public" {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["30.0.0.0/16"]
     }
 
     ingress {
-        description = "All from 20.0.0.0/16"
+        description = "All from 40.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["20.0.0.0/16"]
+        cidr_blocks = ["40.0.0.0/16"]
     }
 
     ingress {
@@ -285,14 +285,14 @@ resource "aws_security_group" "sg_vpc10_public" {
     }
 
     tags = {
-        Name = "sg_vpc10_public"
+        Name = "sg_vpc1_public"
     }
 }
 
-resource "aws_security_group" "sg_vpc10_private" {
-    name        = "sg_vpc10_private"
-    description = "sg_vpc10_private"
-    vpc_id      = aws_vpc.vpc10.id
+resource "aws_security_group" "sg_vpc1_private" {
+    name        = "sg_vpc1_private"
+    description = "sg_vpc1_private"
+    vpc_id      = aws_vpc.vpc1.id
     
     egress {
         description = "All to All"
@@ -303,30 +303,30 @@ resource "aws_security_group" "sg_vpc10_private" {
     }
 
     ingress {
-        description = "All from 10.0.0.0/16"
+        description = "All from 30.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["30.0.0.0/16"]
     }
 
     ingress {
-        description = "All from 20.0.0.0/16"
+        description = "All from 40.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["20.0.0.0/16"]
+        cidr_blocks = ["40.0.0.0/16"]
     }
 
     tags = {
-        Name = "sg_vpc10_private"
+        Name = "sg_vpc1_private"
     }
 }
 
-resource "aws_security_group" "sg_vpc20_public" {
-    name        = "sg_vpc20_public"
-    description = "sg_vpc20_public"
-    vpc_id      = aws_vpc.vpc20.id
+resource "aws_security_group" "sg_vpc2_public" {
+    name        = "sg_vpc2_public"
+    description = "sg_vpc2_public"
+    vpc_id      = aws_vpc.vpc2.id
     
     egress {
         description = "All to All"
@@ -337,19 +337,19 @@ resource "aws_security_group" "sg_vpc20_public" {
     }
 
     ingress {
-        description = "All from 20.0.0.0/16"
+        description = "All from 40.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["20.0.0.0/16"]
+        cidr_blocks = ["40.0.0.0/16"]
     }
 
     ingress {
-        description = "All from 10.0.0.0/16"
+        description = "All from 30.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["30.0.0.0/16"]
     }
 
     ingress {
@@ -377,14 +377,14 @@ resource "aws_security_group" "sg_vpc20_public" {
     }
 
     tags = {
-        Name = "sg_vpc20_public"
+        Name = "sg_vpc2_public"
     }
 }
 
-resource "aws_security_group" "sg_vpc20_private" {
-    name        = "sg_vpc20_private"
-    description = "sg_vpc20_private"
-    vpc_id      = aws_vpc.vpc20.id
+resource "aws_security_group" "sg_vpc2_private" {
+    name        = "sg_vpc2_private"
+    description = "sg_vpc2_private"
+    vpc_id      = aws_vpc.vpc2.id
     
     egress {
         description = "All to All"
@@ -395,38 +395,32 @@ resource "aws_security_group" "sg_vpc20_private" {
     }
 
     ingress {
-        description = "All from 20.0.0.0/16"
+        description = "All from 40.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["20.0.0.0/16"]
+        cidr_blocks = ["40.0.0.0/16"]
     }
 
     ingress {
-        description = "All from 10.0.0.0/16"
+        description = "All from 30.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["30.0.0.0/16"]
     }
 
     tags = {
-        Name = "sg_vpc20_private"
+        Name = "sg_vpc2_private"
     }
-}
-
-# EC2 Key Pair
-resource "aws_key_pair" "deployer" {
-  key_name   = "deployer-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 email@example.com"
 }
 
 # EC2 INSTANCE
 resource "aws_instance" "nagios" {
-    ami                    = "ami-087c17d1fe0178315"
+    ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_vpc10_public.id
-    vpc_security_group_ids = [aws_security_group.sg_vpc10_public.id]
+    subnet_id              = aws_subnet.sn_vpc1_public.id
+    vpc_security_group_ids = [aws_security_group.sg_vpc1_public.id]
 	user_data = <<-EOF
         #!/bin/bash
 
@@ -468,7 +462,6 @@ resource "aws_instance" "nagios" {
         service nagios restart
         echo done > /tmp/nagioscore.done
 	EOF
-    key_name = "nagios"
 
     tags = {
         Name = "nagios"
@@ -476,10 +469,10 @@ resource "aws_instance" "nagios" {
 }
 
 resource "aws_instance" "node_a" {
-    ami                    = "ami-087c17d1fe0178315"
+    ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_vpc10_public.id
-    vpc_security_group_ids = [aws_security_group.sg_vpc10_public.id]
+    subnet_id              = aws_subnet.sn_vpc1_public.id
+    vpc_security_group_ids = [aws_security_group.sg_vpc1_public.id]
 	user_data = <<-EOF
         #!/bin/bash
 
@@ -498,7 +491,6 @@ resource "aws_instance" "node_a" {
         service snmpd restart
         echo done > /tmp/snmp-agent.done
 	EOF
-    key_name = "nagios"
 
     tags = {
         Name = "node_a"
@@ -506,10 +498,10 @@ resource "aws_instance" "node_a" {
 }
 
 resource "aws_instance" "node_b" {
-    ami                    = "ami-087c17d1fe0178315"
+    ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_vpc20_public.id
-    vpc_security_group_ids = [aws_security_group.sg_vpc20_public.id]
+    subnet_id              = aws_subnet.sn_vpc2_public.id
+    vpc_security_group_ids = [aws_security_group.sg_vpc2_public.id]
 	user_data = <<-EOF
         #!/bin/bash
 
@@ -528,7 +520,6 @@ resource "aws_instance" "node_b" {
         service snmpd restart
         echo done > /tmp/snmp-agent.done
 	EOF
-    key_name = "nagios"
 
     tags = {
         Name = "node_b"
@@ -536,10 +527,10 @@ resource "aws_instance" "node_b" {
 }
 
 resource "aws_instance" "node_c" {
-    ami                    = "ami-087c17d1fe0178315"
+    ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_vpc10_private.id
-    vpc_security_group_ids = [aws_security_group.sg_vpc10_private.id]
+    subnet_id              = aws_subnet.sn_vpc1_private.id
+    vpc_security_group_ids = [aws_security_group.sg_vpc1_private.id]
 	user_data = <<-EOF
         #!/bin/bash
 
@@ -558,7 +549,6 @@ resource "aws_instance" "node_c" {
         service snmpd restart
         echo done > /tmp/snmp-agent.done
 	EOF
-    key_name = "nagios"
 
     tags = {
         Name = "node_c"
@@ -566,10 +556,10 @@ resource "aws_instance" "node_c" {
 }
 
 resource "aws_instance" "node_d" {
-    ami                    = "ami-087c17d1fe0178315"
+    ami                    = "ami-02e136e904f3da870"
     instance_type          = "t2.micro"
-    subnet_id              = aws_subnet.sn_vpc20_private.id
-    vpc_security_group_ids = [aws_security_group.sg_vpc20_private.id]
+    subnet_id              = aws_subnet.sn_vpc2_private.id
+    vpc_security_group_ids = [aws_security_group.sg_vpc2_private.id]
 	user_data = <<-EOF
         #!/bin/bash
 
@@ -589,8 +579,7 @@ resource "aws_instance" "node_d" {
         echo done > /tmp/snmp-agent.done
         key_name = "nagios"
 	EOF
-    key_name = "nagios"
-
+ 
     tags = {
         Name = "node_d"
     }
