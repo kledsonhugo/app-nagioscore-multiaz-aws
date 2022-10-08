@@ -221,29 +221,29 @@ resource "aws_security_group" "sg_vpc1_public" {
     description = "sg_vpc1_public"
     vpc_id      = aws_vpc.vpc1.id
     
-    egress {
-        description = "All to All"
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+    # egress {
+    #     description = "All to All"
+    #     from_port   = 0
+    #     to_port     = 0
+    #     protocol    = "-1"
+    #     cidr_blocks = ["0.0.0.0/0"]
+    # }
 
     ingress {
-        description = "All from 10.0.0.0/16"
+        description = "All from 30.0.0.0/16"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
         cidr_blocks = ["30.0.0.0/16"]
     }
 
-    ingress {
-        description = "All from 40.0.0.0/16"
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["40.0.0.0/16"]
-    }
+    # ingress {
+    #     description = "All from 40.0.0.0/16"
+    #     from_port   = 0
+    #     to_port     = 0
+    #     protocol    = "-1"
+    #     cidr_blocks = ["40.0.0.0/16"]
+    # }
 
     ingress {
         description = "TCP/22 from All"
@@ -261,13 +261,13 @@ resource "aws_security_group" "sg_vpc1_public" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    ingress {
-        description = "TCP/3389 from All"
-        from_port   = 3389
-        to_port     = 3389
-        protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+    # ingress {
+    #     description = "TCP/3389 from All"
+    #     from_port   = 3389
+    #     to_port     = 3389
+    #     protocol    = "tcp"
+    #     cidr_blocks = ["0.0.0.0/0"]
+    # }
 
     tags = {
         Name = "sg_vpc1_public"
@@ -279,13 +279,13 @@ resource "aws_security_group" "sg_vpc1_private" {
     description = "sg_vpc1_private"
     vpc_id      = aws_vpc.vpc1.id
     
-    egress {
-        description = "All to All"
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+    # egress {
+    #     description = "All to All"
+    #     from_port   = 0
+    #     to_port     = 0
+    #     protocol    = "-1"
+    #     cidr_blocks = ["0.0.0.0/0"]
+    # }
 
     ingress {
         description = "All from 30.0.0.0/16"
@@ -295,13 +295,13 @@ resource "aws_security_group" "sg_vpc1_private" {
         cidr_blocks = ["30.0.0.0/16"]
     }
 
-    ingress {
-        description = "All from 40.0.0.0/16"
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
-        cidr_blocks = ["40.0.0.0/16"]
-    }
+    # ingress {
+    #     description = "All from 40.0.0.0/16"
+    #     from_port   = 0
+    #     to_port     = 0
+    #     protocol    = "-1"
+    #     cidr_blocks = ["40.0.0.0/16"]
+    # }
 
     tags = {
         Name = "sg_vpc1_private"
