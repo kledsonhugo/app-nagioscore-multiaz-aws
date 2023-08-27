@@ -6,6 +6,7 @@ on:
     - main
     paths:
     - 'terraform/main.tf'
+    - '.github/workflows/iac-backend.yaml'
 
 jobs:
 
