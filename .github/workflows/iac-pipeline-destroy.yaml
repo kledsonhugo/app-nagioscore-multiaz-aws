@@ -1,4 +1,4 @@
-name: IaC Lifecycle Destroy
+name: IaC Pipeline Destroy
 
 on:
   push:
