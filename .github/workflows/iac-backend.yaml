@@ -1,0 +1,35 @@
+name: IaC Backend
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'terraform/provider.tf'
+
+jobs:
+
+  job-Terraform_Backend:
+    runs-on: ubuntu-latest
+ 
+    steps:
+
+    - name: Step 01 - AWS S3 Bucket
+      env :
+        TERRAFORM_VERSION: "1.5.6"
+      run : |
+        tf_version=$TERRAFORM_VERSION
+        wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
+        unzip terraform_"$tf_version"_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
+
+    - name: Step 02 - Terraform Version
+      run : terraform --version
+
+    - name: Step 03 - Set AWS Account
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region           : us-east-1
