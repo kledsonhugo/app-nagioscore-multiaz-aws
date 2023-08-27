@@ -369,7 +369,7 @@ resource "aws_security_group" "sg_vpc20_public" {
 resource "aws_security_group" "sg_vpc20_private" {
     name        = "sg_vpc20_private"
     description = "sg_vpc20_private"
-    vpc_id      = aws_vpc.vpc2.id
+    vpc_id      = aws_vpc.vpc20.id
     
     egress {
         description = "All to All"
