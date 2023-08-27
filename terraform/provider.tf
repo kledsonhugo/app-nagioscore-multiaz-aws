@@ -1,24 +1,27 @@
 # PROVIDER
 terraform {
 
-  required_version = "~> 1.3.1"
+  required_version = "~> 1.5.4"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.34"
+      version = "~> 5.13"
     }
   }
 
   backend "s3" {
-    bucket         = "tf-state-nagioscore-multiaz-bucket"
+    bucket         = "tf-nagios-core-multiaz-state-v1"
     key            = "terraform.tfstate"
-    dynamodb_table = "tf-state-nagioscore-multiaz-table"
+    dynamodb_table = "tf-nagios-core-multiaz-state-v1"
+    region         = "us-east-1"
   }
 
 }
 
 # provider "aws" {
-#   region  = "us-east-1"
-#   profile = "awsacademy"
+#   region                   = "us-east-1"
+#   shared_config_files      = ["./.aws/config"]
+#   shared_credentials_files = ["./.aws/credentials"]
+#   profile                  = "fiap"
 # }
