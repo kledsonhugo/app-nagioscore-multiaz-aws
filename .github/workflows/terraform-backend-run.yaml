@@ -25,12 +25,17 @@ jobs:
 
     - name: Step 02 - Set S3 Bucket
       run: |
-        aws s3api create-bucket \
-          --bucket ${{ vars.AWS_S3_BUCKET }}
-        aws s3api put-bucket-versioning \
-          --bucket ${{ vars.AWS_S3_BUCKET }} \
-          --versioning-configuration \
-            MFADelete=Disabled,Status=Enabled
+        if if aws s3api head-bucket --bucket ${{ vars.AWS_S3_BUCKET }} 2>/dev/null; then
+          echo "S3 bucket '${{ vars.AWS_S3_BUCKET }}' found"
+        else 
+          echo "Creating S3 bucket '${{ vars.AWS_S3_BUCKET }}' ..."
+          aws s3api create-bucket \
+            --bucket ${{ vars.AWS_S3_BUCKET }}
+          aws s3api put-bucket-versioning \
+            --bucket ${{ vars.AWS_S3_BUCKET }} \
+            --versioning-configuration \
+              MFADelete=Disabled,Status=Enabled
+        fi
 
     - name: Step 03 - Set DynamoDB Table
       run: |
