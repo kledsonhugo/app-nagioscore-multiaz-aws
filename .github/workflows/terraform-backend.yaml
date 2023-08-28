@@ -37,4 +37,6 @@ jobs:
             AttributeName=LockID,AttributeType=S \
           --key-schema \
             AttributeName=LockID,KeyType=HASH \
+          --provisioned-throughput \
+            ReadCapacityUnits=1,WriteCapacityUnits=1
           --region ${{ vars.AWS_REGION }}
