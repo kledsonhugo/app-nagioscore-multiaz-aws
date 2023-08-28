@@ -30,10 +30,10 @@ jobs:
           echo "Creating S3 bucket '${{ vars.AWS_S3_BUCKET }}' ..."
           aws s3api create-bucket \
             --bucket ${{ vars.AWS_S3_BUCKET }}
-          aws s3api put-bucket-versioning \
-            --bucket ${{ vars.AWS_S3_BUCKET }} \
-            --versioning-configuration \
-              MFADelete=Disabled,Status=Enabled
+          # aws s3api put-bucket-versioning \
+          #   --bucket ${{ vars.AWS_S3_BUCKET }} \
+          #   --versioning-configuration \
+          #     MFADelete=Disabled,Status=Enabled
         fi
 
     - name: Step 03 - Set DynamoDB Table
