@@ -12,6 +12,10 @@ jobs:
 
   job-Terraform_Apply:
     runs-on: ubuntu-latest
+    env :
+      TF_VAR_bucket         : ${{ vars.AWS_S3_BUCKET }}
+      TF_VAR_dynamodb_table : ${{ vars.AWS_DYNAMODB_TABLE }}
+      TF_VAR_region         : ${{ vars.AWS_REGION }}
  
     steps:
 
@@ -20,34 +24,32 @@ jobs:
         TERRAFORM_VERSION: "1.5.6"
       run : |
         tf_version=$TERRAFORM_VERSION
-        echo "AWS_REGION = ${{ vars.AWS_REGION }}"
-    #     wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
-    #     unzip terraform_"$tf_version"_linux_amd64.zip
-    #     sudo mv terraform /usr/local/bin/
+        wget https://releases.hashicorp.com/terraform/"$tf_version"/terraform_"$tf_version"_linux_amd64.zip
+        unzip terraform_"$tf_version"_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
 
-    # - name: Step 02 - Terraform Version
-    #   run : terraform --version
+    - name: Step 02 - Terraform Version
+      run : terraform --version
 
-    # - name: Step 03 - CheckOut GitHub Repo
-    #   uses: actions/checkout@v1
+    - name: Step 03 - CheckOut GitHub Repo
+      uses: actions/checkout@v1
 
-    # - name: Step 04 - Set AWS Account
-    #   uses: aws-actions/configure-aws-credentials@v3
-    #   with:
-    #     aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
-    #     aws-region           : ${{ vars.AWS_REGION }}
+    - name: Step 04 - Set AWS Account
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region           : ${{ vars.AWS_REGION }}
 
-    # - name: Step 05 - Terraform Init
-    #   run : terraform -chdir=./terraform init -input=false
+    - name: Step 05 - Terraform Init
+      run : terraform -chdir=./terraform init -input=false
 
-    # - name: Step 06 - Terraform Validate
-    #   run : terraform -chdir=./terraform validate
+    - name: Step 06 - Terraform Validate
+      run : terraform -chdir=./terraform validate
 
-    # - name: Step 07 - Terraform Plan
-    #   # run : terraform -chdir=./terraform plan -input=false -out tfplan
-    #   run : terraform -chdir=./terraform plan -input=false -destroy -out tfplan
+    - name: Step 07 - Terraform Plan
+      run : terraform -chdir=./terraform plan -input=false -out tfplan
 
     # - name: Step 08 - Terraform Apply
     #   run : terraform -chdir=./terraform apply -auto-approve -input=false tfplan
