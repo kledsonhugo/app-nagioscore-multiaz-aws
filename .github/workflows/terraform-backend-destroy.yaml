@@ -44,3 +44,4 @@ jobs:
     #           ReadCapacityUnits=1,WriteCapacityUnits=1 \
     #         --region ${{ vars.AWS_REGION }}
     #     fi
+    
