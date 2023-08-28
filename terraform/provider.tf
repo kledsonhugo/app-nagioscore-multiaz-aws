@@ -1,20 +1,4 @@
 # PROVIDER
-
-variable "bucket" {
-  type    = string
-  default = "app-nagios-core-multiaz-v1"
-}
-
-variable "dynamodb_table" {
-  type    = string
-  default = "app-nagios-core-multiaz-v1"
-}
-
-variable "region" {
-  type    = string
-  default = "us-east-1"
-}
-
 terraform {
 
   required_version = "~> 1.5.4"
@@ -27,10 +11,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "${var.bucket}"
+    bucket         = "app-nagios-core-multiaz-v1"
     key            = "terraform.tfstate"
-    dynamodb_table = "${var.dynamodb_table}"
-    region         = "${var.region}"
+    dynamodb_table = "app-nagios-core-multiaz-v1"
+    # region         = "us-east-1"
   }
 
 }
