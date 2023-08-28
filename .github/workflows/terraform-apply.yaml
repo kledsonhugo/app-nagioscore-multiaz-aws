@@ -12,8 +12,6 @@ jobs:
 
   job-Terraform_Apply:
     runs-on: ubuntu-latest
-    env :
-      TF_VAR_region: ${{ vars.AWS_REGION }}
  
     steps:
 
