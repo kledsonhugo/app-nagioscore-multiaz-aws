@@ -30,11 +30,15 @@ jobs:
           # aws s3api delete-objects \
           #   --bucket ${{ vars.AWS_S3_BUCKET }} \
           #   --delete '{"Objects":[{"Key":"terraform.tfstate"}]}'
-          aws s3api delete-objects --bucket ${{ vars.AWS_S3_BUCKET }} \ 
-            --delete "$(aws s3api list-object-versions \
+          # aws s3api delete-objects --bucket ${{ vars.AWS_S3_BUCKET }} \ 
+          #   --delete "$(aws s3api list-object-versions \
+          #   --bucket "${{ vars.AWS_S3_BUCKET }}" \
+          #   --output=json \
+          #   --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+          aws s3api list-object-versions \
             --bucket "${{ vars.AWS_S3_BUCKET }}" \
             --output=json \
-            --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+            --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}'
           # aws s3 rb s3://${{ vars.AWS_S3_BUCKET }} --force 
         else 
           echo "S3 bucket '${{ vars.AWS_S3_BUCKET }}' not found"
