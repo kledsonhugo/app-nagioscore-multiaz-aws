@@ -28,7 +28,7 @@ jobs:
           echo "Destroying S3 bucket '${{ vars.AWS_S3_BUCKET }}' ..."
           # aws s3 rm s3://${{ vars.AWS_S3_BUCKET }} --recursive
           aws s3api delete-objects \
-            --bucket ${{ vars.AWS_S3_BUCKET }}
+            --bucket ${{ vars.AWS_S3_BUCKET }} \
             --delete '{"Objects":[{"Key":"terraform.tfstate"}]}'
           aws s3 rb s3://${{ vars.AWS_S3_BUCKET }} --force 
         else 
