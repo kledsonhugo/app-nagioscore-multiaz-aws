@@ -13,7 +13,7 @@ jobs:
   job-Terraform_Backend:
     runs-on: ubuntu-latest
     env :
-      AWS_REGION_DEFAULT: "us-east-1"
+      AWS_REGION_DEFAULT: "us-east-2"
  
     steps:
 
@@ -23,7 +23,7 @@ jobs:
         aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
-        aws-region           : $AWS_REGION_DEFAULT
+        aws-region           : ${{ secrets.AWS_REGION }}
 
     - name: Step 02 - Set S3 Bucket
       run: |
