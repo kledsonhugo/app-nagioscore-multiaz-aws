@@ -1,4 +1,20 @@
 # PROVIDER
+
+variable "bucket" {
+  type  = string
+  value = "app-nagios-core-multiaz-v1"
+}
+
+variable "dynamodb_table" {
+  type  = string
+  value = "app-nagios-core-multiaz-v1"
+}
+
+variable "region" {
+  type  = string
+  value = "us-east-1"
+}
+
 terraform {
 
   required_version = "~> 1.5.4"
@@ -8,21 +24,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.13"
     }
-  }
-
-  variable "bucket" {
-    type  = string
-    value = "app-nagios-core-multiaz-v1"
-  }
-
-  variable "dynamodb_table" {
-    type  = string
-    value = "app-nagios-core-multiaz-v1"
-  }
-
-  variable "region" {
-    type  = string
-    value = "us-east-1"
   }
 
   backend "s3" {
