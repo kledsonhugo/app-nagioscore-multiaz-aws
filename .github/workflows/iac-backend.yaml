@@ -23,7 +23,7 @@ jobs:
         aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
         aws-region           : us-east-1
 
-    # - name: Step 02 - Set S3 Bucket
-    #   run: |
-    #     echo "${{ env.AWS_REGION }}"
-    #     # aws s3api create-bucket --bucket ${{ env.AWS_S3_BUCKET }} --region ${{ env.AWS_REGION }}
+    - name: Step 02 - Set S3 Bucket
+      run: |
+        echo "${{ env.AWS_REGION }}"
+        # aws s3api create-bucket --bucket ${{ env.AWS_S3_BUCKET }} --region ${{ env.AWS_REGION }}
