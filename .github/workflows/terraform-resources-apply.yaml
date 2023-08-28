@@ -1,4 +1,4 @@
-name: Terraform Apply
+name: Terraform Resources Apply
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-  job-Terraform_Apply:
+  job-Terraform_Resources_Apply:
     runs-on: ubuntu-latest
  
     steps:

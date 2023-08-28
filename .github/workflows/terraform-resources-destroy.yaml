@@ -1,16 +1,15 @@
-name: Terraform Destroy
+name: Terraform Resources Destroy
 
 on:
   push:
     branches:
     - main
     paths:
-    - '.github/workflows/terraform-destroy.yaml'
-    - 'terraform/destroy.env'
+    - '.github/workflows/terraform-resources-destroy.yml'
 
 jobs:
 
-  job-Terraform_Destroy:
+  job-Terraform_Resources_Destroy:
     runs-on: ubuntu-latest
   
     steps:
@@ -44,7 +43,7 @@ jobs:
     - name: Step 06 - Terraform Validate
       run : terraform -chdir=./terraform validate
 
-    - name: Step 07 - Terraform Plan
+    - name: Step 07 - Terraform Plan to Destroy
       run : terraform -chdir=./terraform plan -destroy -input=false -out tfplan
 
     - name: Step 08 - Terraform Apply
