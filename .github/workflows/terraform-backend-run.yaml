@@ -26,13 +26,13 @@ jobs:
     - name: Step 02 - Set S3 Bucket
       run: |
         aws s3api create-bucket \
+          --bucket ${{ vars.AWS_S3_BUCKET }}
+          # --region ${{ vars.AWS_REGION }}
+        aws s3api put-bucket-versioning \
           --bucket ${{ vars.AWS_S3_BUCKET }} \
-          --region ${{ vars.AWS_REGION }}
-        # aws s3api put-bucket-versioning \
-        #   --bucket ${{ vars.AWS_S3_BUCKET }} \
-        #   --versioning-configuration \
-        #     MFADelete=Disabled,Status=Enabled \
-        #   --region ${{ vars.AWS_REGION }}
+          --versioning-configuration \
+            MFADelete=Disabled,Status=Enabled
+          # --region ${{ vars.AWS_REGION }}
 
     - name: Step 03 - Set DynamoDB Table
       run: |
