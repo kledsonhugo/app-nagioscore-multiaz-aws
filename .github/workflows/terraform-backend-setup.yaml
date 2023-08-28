@@ -6,7 +6,6 @@ on:
     - main
     paths:
     - '.github/workflows/terraform-backend-setup.yaml'
-    - 'terraform/provider.tf'
 
 jobs:
 
