@@ -32,9 +32,9 @@ jobs:
     - name: Step 03 - Set DynamoDB Table
       run: |
         if aws dynamodb describe-table --table-name ${{ vars.AWS_DYNAMODB_TABLE }} 2>/dev/null; then
-          echo "DynamoDB Table: ${{ vars.AWS_DYNAMODB_TABLE }} já encontrada."
+          echo "Tabela DynamoDB '${{ vars.AWS_DYNAMODB_TABLE }}' já encontrada."
         else 
-          echo "DynamoDB Table: ${{ vars.AWS_DYNAMODB_TABLE }} não encontrada. Criando ..."
+          echo "Tabela DynamoDB '${{ vars.AWS_DYNAMODB_TABLE }}' não encontrada. Criando ..."
           aws dynamodb create-table \
             --table-name ${{ vars.AWS_DYNAMODB_TABLE }} \
             --attribute-definitions \
