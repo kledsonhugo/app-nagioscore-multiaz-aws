@@ -11,9 +11,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "app-nagios-core-multiaz-v1"
+    bucket         = "app-nagios-core-multiaz-v1-puc"
     key            = "terraform.tfstate"
-    dynamodb_table = "app-nagios-core-multiaz-v1"
+    dynamodb_table = "app-nagios-core-multiaz-v1-puc"
   }
 
 }
