@@ -25,4 +25,6 @@ jobs:
 
     - name: Step 02 - Set S3 Bucket
       run: |
-        aws s3api create-bucket --bucket ${{ vars.AWS_S3_BUCKET }} --region ${{ vars.AWS_REGION }}
+        aws s3 create-bucket \
+          --bucket ${{ vars.AWS_S3_BUCKET }} \
+          --region ${{ vars.AWS_REGION }}
