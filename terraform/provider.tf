@@ -1,4 +1,9 @@
 # PROVIDER
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
 terraform {
 
   required_version = "~> 1.5.4"
@@ -14,14 +19,7 @@ terraform {
     bucket         = "app-nagios-core-multiaz-v1"
     key            = "terraform.tfstate"
     dynamodb_table = "app-nagios-core-multiaz-v1"
-    # region         = "us-east-1"
+    region         = "${var.region}"
   }
 
 }
-
-# provider "aws" {
-#   region                   = "us-east-1"
-#   shared_config_files      = ["./.aws/config"]
-#   shared_credentials_files = ["./.aws/credentials"]
-#   profile                  = "fiap"
-# }
