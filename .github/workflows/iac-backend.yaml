@@ -12,8 +12,6 @@ jobs:
 
   job-Terraform_Backend:
     runs-on: ubuntu-latest
-    env :
-      AWS_REGION_DEFAULT: "us-east-2"
  
     steps:
 
@@ -27,6 +25,4 @@ jobs:
 
     - name: Step 02 - Set S3 Bucket
       run: |
-        echo "AWS_REGION = ${{ vars.AWS_REGION }}"
-        echo "AWS_REGION_DEFAULT = $AWS_REGION_DEFAULT"
-        # aws s3api create-bucket --bucket ${{ env.AWS_S3_BUCKET }} --region ${{ env.AWS_REGION }}
+        aws s3api create-bucket --bucket ${{ vars.AWS_S3_BUCKET }} --region ${{ vars.AWS_REGION }}
