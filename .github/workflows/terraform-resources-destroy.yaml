@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - '.github/workflows/terraform-resources-destroy.yml'
+    - '.github/workflows/terraform-resources-destroy.yaml'
 
 jobs:
 
