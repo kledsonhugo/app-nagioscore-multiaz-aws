@@ -16,12 +16,12 @@ jobs:
     steps:
 
     - name: Step 01 - Set AWS Account
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-session-token    : ${{ secrets.AWS_SESSION_TOKEN }}
-        aws-region           : ${{ env.AWS_REGION }}
+        aws-region           : us-east-1
 
     # - name: Step 02 - Set S3 Bucket
     #   run: |
