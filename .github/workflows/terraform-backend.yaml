@@ -40,3 +40,8 @@ jobs:
           --provisioned-throughput \
             ReadCapacityUnits=1,WriteCapacityUnits=1 \
           --region ${{ vars.AWS_REGION }}
+        if aws dynamodb describe-table --table-name ${{ vars.AWS_DYNAMODB_TABLE }} 2>/dev/null; then
+          echo "DynamoDB Table: ${{ vars.AWS_DYNAMODB_TABLE }} found, Skipping DynamoDB table creation ..."
+        else 
+          echo "DynamoDB Table: ${{ vars.AWS_DYNAMODB_TABLE }} not found, Creating DynamoDB table ..."
+        fi
