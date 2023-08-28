@@ -1,16 +1,16 @@
-name: Terraform Backend Run
+name: Terraform Backend Setup
 
 on:
   push:
     branches:
     - main
     paths:
-    - '.github/workflows/terraform-backend-run.yaml'
+    - '.github/workflows/terraform-backend-setup.yaml'
     - 'terraform/provider.tf'
 
 jobs:
 
-  job-Terraform_Backend_Run:
+  job-Terraform_Backend_Setup:
     runs-on: ubuntu-latest
  
     steps:
