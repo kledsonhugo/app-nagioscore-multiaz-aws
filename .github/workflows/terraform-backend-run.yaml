@@ -1,16 +1,16 @@
-name: Terraform Backend
+name: Terraform Backend Run
 
 on:
   push:
     branches:
     - main
     paths:
-    - '.github/workflows/terraform-backend.yaml'
+    - '.github/workflows/terraform-backend-run.yaml'
     - 'terraform/provider.tf'
 
 jobs:
 
-  job-Terraform_Backend:
+  job-Terraform_Backend_Run:
     runs-on: ubuntu-latest
  
     steps:
@@ -27,6 +27,11 @@ jobs:
       run: |
         aws s3api create-bucket \
           --bucket ${{ vars.AWS_S3_BUCKET }} \
+          --region ${{ vars.AWS_REGION }}
+        aws s3api put-bucket-versioning \
+          --bucket ${{ vars.AWS_S3_BUCKET }} \
+          --versioning-configuration \
+            MFADelete=Disabled,Status=Enabled \
           --region ${{ vars.AWS_REGION }}
 
     - name: Step 03 - Set DynamoDB Table
