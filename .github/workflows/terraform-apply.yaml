@@ -13,9 +13,7 @@ jobs:
   job-Terraform_Apply:
     runs-on: ubuntu-latest
     env :
-      TF_VAR_bucket         : ${{ vars.AWS_S3_BUCKET }}
-      TF_VAR_dynamodb_table : ${{ vars.AWS_DYNAMODB_TABLE }}
-      TF_VAR_region         : ${{ vars.AWS_REGION }}
+      TF_VAR_region: ${{ vars.AWS_REGION }}
  
     steps:
 
