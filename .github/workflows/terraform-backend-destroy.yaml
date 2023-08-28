@@ -29,8 +29,9 @@ jobs:
           aws s3api delete-objects \
             --bucket ${{ vars.AWS_S3_BUCKET }} \ 
             --delete "$(aws s3api list-object-versions \
-            --output=json \
-            --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+              --bucket ${{ vars.AWS_S3_BUCKET }} \
+              --output=json \
+              --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
           aws s3 rb s3://${{ vars.AWS_S3_BUCKET }} --force 
         else 
           echo "S3 bucket '${{ vars.AWS_S3_BUCKET }}' not found"
