@@ -1,18 +1,18 @@
 # PROVIDER
 
 variable "bucket" {
-  type  = string
-  value = "app-nagios-core-multiaz-v1"
+  type    = string
+  default = "app-nagios-core-multiaz-v1"
 }
 
 variable "dynamodb_table" {
-  type  = string
-  value = "app-nagios-core-multiaz-v1"
+  type    = string
+  default = "app-nagios-core-multiaz-v1"
 }
 
 variable "region" {
-  type  = string
-  value = "us-east-1"
+  type    = string
+  default = "us-east-1"
 }
 
 terraform {
