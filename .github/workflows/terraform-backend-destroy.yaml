@@ -23,10 +23,13 @@ jobs:
         aws-region           : ${{ vars.AWS_REGION }}
 
     - name: Step 02 - Destroy S3 Bucket
-      run: |
-        aws s3 rb \
-          s3://${{ vars.AWS_S3_BUCKET }} \
-          --force
+      run: |        
+        if aws s3api head-bucket --bucket ${{ vars.AWS_S3_BUCKET }} 2>/dev/null; then
+          echo "Destroying S3 bucket '${{ vars.AWS_S3_BUCKET }}' ..."
+          aws s3 rb s3://${{ vars.AWS_S3_BUCKET }} --force 
+        else 
+          echo "S3 bucket '${{ vars.AWS_S3_BUCKET }}' not found"
+        fi
 
     # - name: Step 03 - Set DynamoDB Table
     #   run: |
@@ -44,4 +47,3 @@ jobs:
     #           ReadCapacityUnits=1,WriteCapacityUnits=1 \
     #         --region ${{ vars.AWS_REGION }}
     #     fi
-    
