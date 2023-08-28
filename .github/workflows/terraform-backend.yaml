@@ -44,4 +44,3 @@ jobs:
             --provisioned-throughput \
               ReadCapacityUnits=1,WriteCapacityUnits=1 \
             --region ${{ vars.AWS_REGION }}
-        f
